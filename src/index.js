@@ -1,9 +1,13 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { Prisma } = require('prisma-binding')
 const Query = require('./resolvers/Query')
+const Mutation = require('./resolvers/Mutation')
+const Subscription = require('./resolvers/Subscription')
 
 const resolvers = {
   Query,
+  Mutation,
+  Subscription
 }
 
 const server = new GraphQLServer({
@@ -13,7 +17,7 @@ const server = new GraphQLServer({
     ...req,
     db: new Prisma({
       typeDefs: 'src/generated/prisma.graphql',
-      endpoint: 'https://us1.prisma.sh/public-ironhiss-639/hackernews-node/dev', // the endpoint of the Prisma DB service
+      endpoint: 'https://eu1.prisma.sh/ramon-antonio/demo/dev', // the endpoint of the Prisma DB service
       secret: 'mysecret123', // specified in database/prisma.yml
       debug: true, // log all GraphQL queryies & mutations
     }),

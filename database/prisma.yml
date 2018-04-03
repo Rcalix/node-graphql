@@ -1,5 +1,5 @@
 # the name for the service (will be part of the service's HTTP endpoint)
-service: hackernews-node
+service: demo
 
 # the cluster and stage the service is deployed to
 stage: dev
@@ -15,4 +15,4 @@ datamodel: datamodel.graphql
 seed:
   import: seed.graphql
 
-cluster: public-ironhiss-639/prisma-us1
+cluster: ramon-antonio/prisma-eu1
