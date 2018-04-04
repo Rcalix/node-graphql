@@ -1,4 +1,4 @@
-# import Link, Vote, Profile, LinkSubscriptionPayload, VoteSubscriptionPayload from './generated/prisma.graphql'
+# import Link, Vote, Profile, Skill, Contact, Content, Proyect, LinkSubscriptionPayload, VoteSubscriptionPayload from './generated/prisma.graphql'
 type AuthPayload {
   token: String
   user: User
@@ -6,6 +6,7 @@ type AuthPayload {
 
 type Query {
   feed(filter: String, skip: Int, first: Int): [Link!]!
+  feed_skills(filter: String, skip: Int, first: Int): [Skill!]!
 }
 
 type Mutation {
@@ -14,6 +15,10 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload
   vote(linkId: ID!): Vote
   profile(name: String!, picUrl: String!, role: String!, description: String): Profile
+  skill(name: String!, value:String!, type:String!, profile: String!): Skill
+  contact(location: String!, email:String!, link:String!, profile: String!): Contact
+  content(title: String!, description:String!, year:String!, type: String!, image_url:String! , profile: String!): Content
+  proyect(name: String!, image:String!, description:String!, url:String!, tags:[String]!, profile: String!): Proyect
 }
 
 type Subscription {

@@ -19,6 +19,43 @@ function profile(parent, { name, picUrl, role, description}, context, info) {
   )
 }
 
+function skill(parent, { name, value, type, profile}, context, info) {
+  return context.db.mutation.createSkill(
+    {
+      data: {  name, value, type, profile:{ connect: { id: profile } }  },
+      info,
+    }
+  )
+}
+
+function contact(parent, { location, email, link, profile}, context, info) {
+  return context.db.mutation.createContact(
+    {
+      data: {  location, email, link, profile:{ connect: { id: profile } }  },
+      info,
+    }
+  )
+}
+
+
+function content(parent, { title, description, year, image_url, type, profile}, context, info) {
+  return context.db.mutation.createContent(
+    {
+      data: {  title, description, year, type, image_url, profile:{ connect: { id: profile } }  },
+      info,
+    }
+  )
+}
+
+function proyect(parent, { name, image, description, url, tags, profile}, context, info) {
+  return context.db.mutation.createProyect(
+    {
+      data: {  name, image, description, url, tags, profile:{ connect: { id: profile } }  },
+      info,
+    }
+  )
+}
+
 async function signup(parent, args, context, info) {
   const password = await bcrypt.hash(args.password, 10)
   const user = await context.db.mutation.createUser({
@@ -79,5 +116,9 @@ module.exports = {
   vote,
   signup,
   login,
-  profile
+  profile,
+  skill,
+  content,
+  proyect,
+  contact
 }

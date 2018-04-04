@@ -32,8 +32,9 @@ type Profile {
 type Skill {
   id: ID! @unique
   name: String!
-  value: User!
+  value: String!
   type: String!
+  profile: Profile!
 }
 
 type Contact {
@@ -41,19 +42,24 @@ type Contact {
   location: String!
   email: String! @unique
   link: String! @unique
+  profile: Profile!
 }
 
 type Content {
   id: ID! @unique
   title: String!
   description: String!
+  image_url: String!
   year: String!
   type: String!
+  profile: Profile!
 }
 
 type Proyect {
   name: String!
   image: String!
+  description: String!
   url: String!
   tags: [String!]
+  profile: Profile!
 }
