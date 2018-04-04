@@ -20,3 +20,40 @@ type User {
   links: [Link!]!
   votes: [Vote!]!
 }
+
+type Profile {
+  id: ID! @unique
+  name: String!
+  picUrl: String
+  role: String!
+  description: String
+}
+
+type Skill {
+  id: ID! @unique
+  name: String!
+  value: User!
+  type: String!
+}
+
+type Contact {
+  id: ID! @unique
+  location: String!
+  email: String! @unique
+  link: String! @unique
+}
+
+type Content {
+  id: ID! @unique
+  title: String!
+  description: String!
+  year: String!
+  type: String!
+}
+
+type Proyect {
+  name: String!
+  image: String!
+  url: String!
+  tags: [String!]
+}

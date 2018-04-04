@@ -10,6 +10,15 @@ function post(parent, { url, description }, context, info) {
   )
 }
 
+function profile(parent, { name, picUrl, role, description}, context, info) {
+  return context.db.mutation.createProfile(
+    {
+      data: {  name, picUrl, role, description },
+      info,
+    }
+  )
+}
+
 async function signup(parent, args, context, info) {
   const password = await bcrypt.hash(args.password, 10)
   const user = await context.db.mutation.createUser({
@@ -69,5 +78,6 @@ module.exports = {
   post,
   vote,
   signup,
-  login
+  login,
+  profile
 }

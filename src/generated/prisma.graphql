@@ -5,12 +5,42 @@
 # Model Types
 #
 
+type Contact implements Node {
+  id: ID!
+  location: String!
+  email: String!
+  link: String!
+}
+
+type Content implements Node {
+  id: ID!
+  title: String!
+  description: String!
+  year: String!
+  type: String!
+}
+
 type Link implements Node {
   id: ID!
   description: String!
   url: String!
   postedBy(where: UserWhereInput): User
   votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote!]
+}
+
+type Profile implements Node {
+  id: ID!
+  name: String!
+  picUrl: String
+  role: String!
+  description: String
+}
+
+type Skill implements Node {
+  id: ID!
+  name: String!
+  value(where: UserWhereInput): User!
+  type: String!
 }
 
 type User implements Node {
@@ -33,7 +63,27 @@ type Vote implements Node {
 # Other Types
 #
 
+type AggregateContact {
+  count: Int!
+}
+
+type AggregateContent {
+  count: Int!
+}
+
 type AggregateLink {
+  count: Int!
+}
+
+type AggregateProfile {
+  count: Int!
+}
+
+type AggregateProyect {
+  count: Int!
+}
+
+type AggregateSkill {
   count: Int!
 }
 
@@ -50,6 +100,716 @@ type BatchPayload {
   The number of nodes that have been affected by the Batch operation.
   """
   count: Long!
+}
+
+"""
+A connection to a list of items.
+"""
+type ContactConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  """
+  A list of edges.
+  """
+  edges: [ContactEdge]!
+  aggregate: AggregateContact!
+}
+
+input ContactCreateInput {
+  location: String!
+  email: String!
+  link: String!
+}
+
+"""
+An edge in a connection.
+"""
+type ContactEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: Contact!
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum ContactOrderByInput {
+  id_ASC
+  id_DESC
+  location_ASC
+  location_DESC
+  email_ASC
+  email_DESC
+  link_ASC
+  link_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ContactPreviousValues {
+  id: ID!
+  location: String!
+  email: String!
+  link: String!
+}
+
+type ContactSubscriptionPayload {
+  mutation: MutationType!
+  node: Contact
+  updatedFields: [String!]
+  previousValues: ContactPreviousValues
+}
+
+input ContactSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [ContactSubscriptionWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [ContactSubscriptionWhereInput!]
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ContactWhereInput
+}
+
+input ContactUpdateInput {
+  location: String
+  email: String
+  link: String
+}
+
+input ContactWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [ContactWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [ContactWhereInput!]
+  id: ID
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  location: String
+  """
+  All values that are not equal to given value.
+  """
+  location_not: String
+  """
+  All values that are contained in given list.
+  """
+  location_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  location_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  location_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  location_lte: String
+  """
+  All values greater than the given value.
+  """
+  location_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  location_gte: String
+  """
+  All values containing the given string.
+  """
+  location_contains: String
+  """
+  All values not containing the given string.
+  """
+  location_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  location_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  location_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  location_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  location_not_ends_with: String
+  email: String
+  """
+  All values that are not equal to given value.
+  """
+  email_not: String
+  """
+  All values that are contained in given list.
+  """
+  email_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  email_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  email_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  email_lte: String
+  """
+  All values greater than the given value.
+  """
+  email_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  email_gte: String
+  """
+  All values containing the given string.
+  """
+  email_contains: String
+  """
+  All values not containing the given string.
+  """
+  email_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  email_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  email_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  email_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  email_not_ends_with: String
+  link: String
+  """
+  All values that are not equal to given value.
+  """
+  link_not: String
+  """
+  All values that are contained in given list.
+  """
+  link_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  link_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  link_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  link_lte: String
+  """
+  All values greater than the given value.
+  """
+  link_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  link_gte: String
+  """
+  All values containing the given string.
+  """
+  link_contains: String
+  """
+  All values not containing the given string.
+  """
+  link_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  link_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  link_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  link_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  link_not_ends_with: String
+}
+
+input ContactWhereUniqueInput {
+  id: ID
+  email: String
+  link: String
+}
+
+"""
+A connection to a list of items.
+"""
+type ContentConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  """
+  A list of edges.
+  """
+  edges: [ContentEdge]!
+  aggregate: AggregateContent!
+}
+
+input ContentCreateInput {
+  title: String!
+  description: String!
+  year: String!
+  type: String!
+}
+
+"""
+An edge in a connection.
+"""
+type ContentEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: Content!
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum ContentOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
+  year_ASC
+  year_DESC
+  type_ASC
+  type_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ContentPreviousValues {
+  id: ID!
+  title: String!
+  description: String!
+  year: String!
+  type: String!
+}
+
+type ContentSubscriptionPayload {
+  mutation: MutationType!
+  node: Content
+  updatedFields: [String!]
+  previousValues: ContentPreviousValues
+}
+
+input ContentSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [ContentSubscriptionWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [ContentSubscriptionWhereInput!]
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ContentWhereInput
+}
+
+input ContentUpdateInput {
+  title: String
+  description: String
+  year: String
+  type: String
+}
+
+input ContentWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [ContentWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [ContentWhereInput!]
+  id: ID
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  title: String
+  """
+  All values that are not equal to given value.
+  """
+  title_not: String
+  """
+  All values that are contained in given list.
+  """
+  title_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  title_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  title_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  title_lte: String
+  """
+  All values greater than the given value.
+  """
+  title_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  title_gte: String
+  """
+  All values containing the given string.
+  """
+  title_contains: String
+  """
+  All values not containing the given string.
+  """
+  title_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  title_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  title_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  title_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  title_not_ends_with: String
+  description: String
+  """
+  All values that are not equal to given value.
+  """
+  description_not: String
+  """
+  All values that are contained in given list.
+  """
+  description_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  description_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  description_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  description_lte: String
+  """
+  All values greater than the given value.
+  """
+  description_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  description_gte: String
+  """
+  All values containing the given string.
+  """
+  description_contains: String
+  """
+  All values not containing the given string.
+  """
+  description_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  description_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  description_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  description_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  description_not_ends_with: String
+  year: String
+  """
+  All values that are not equal to given value.
+  """
+  year_not: String
+  """
+  All values that are contained in given list.
+  """
+  year_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  year_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  year_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  year_lte: String
+  """
+  All values greater than the given value.
+  """
+  year_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  year_gte: String
+  """
+  All values containing the given string.
+  """
+  year_contains: String
+  """
+  All values not containing the given string.
+  """
+  year_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  year_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  year_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  year_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  year_not_ends_with: String
+  type: String
+  """
+  All values that are not equal to given value.
+  """
+  type_not: String
+  """
+  All values that are contained in given list.
+  """
+  type_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  type_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  type_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  type_lte: String
+  """
+  All values greater than the given value.
+  """
+  type_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  type_gte: String
+  """
+  All values containing the given string.
+  """
+  type_contains: String
+  """
+  All values not containing the given string.
+  """
+  type_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  type_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  type_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  type_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  type_not_ends_with: String
+}
+
+input ContentWhereUniqueInput {
+  id: ID
 }
 
 """
@@ -404,21 +1164,48 @@ type Mutation {
   createVote(data: VoteCreateInput!): Vote!
   createLink(data: LinkCreateInput!): Link!
   createUser(data: UserCreateInput!): User!
+  createProfile(data: ProfileCreateInput!): Profile!
+  createSkill(data: SkillCreateInput!): Skill!
+  createContact(data: ContactCreateInput!): Contact!
+  createContent(data: ContentCreateInput!): Content!
+  createProyect(data: ProyectCreateInput!): Proyect!
   updateVote(data: VoteUpdateInput!, where: VoteWhereUniqueInput!): Vote
   updateLink(data: LinkUpdateInput!, where: LinkWhereUniqueInput!): Link
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateProfile(data: ProfileUpdateInput!, where: ProfileWhereUniqueInput!): Profile
+  updateSkill(data: SkillUpdateInput!, where: SkillWhereUniqueInput!): Skill
+  updateContact(data: ContactUpdateInput!, where: ContactWhereUniqueInput!): Contact
+  updateContent(data: ContentUpdateInput!, where: ContentWhereUniqueInput!): Content
   deleteVote(where: VoteWhereUniqueInput!): Vote
   deleteLink(where: LinkWhereUniqueInput!): Link
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteProfile(where: ProfileWhereUniqueInput!): Profile
+  deleteSkill(where: SkillWhereUniqueInput!): Skill
+  deleteContact(where: ContactWhereUniqueInput!): Contact
+  deleteContent(where: ContentWhereUniqueInput!): Content
   upsertVote(where: VoteWhereUniqueInput!, create: VoteCreateInput!, update: VoteUpdateInput!): Vote!
   upsertLink(where: LinkWhereUniqueInput!, create: LinkCreateInput!, update: LinkUpdateInput!): Link!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertProfile(where: ProfileWhereUniqueInput!, create: ProfileCreateInput!, update: ProfileUpdateInput!): Profile!
+  upsertSkill(where: SkillWhereUniqueInput!, create: SkillCreateInput!, update: SkillUpdateInput!): Skill!
+  upsertContact(where: ContactWhereUniqueInput!, create: ContactCreateInput!, update: ContactUpdateInput!): Contact!
+  upsertContent(where: ContentWhereUniqueInput!, create: ContentCreateInput!, update: ContentUpdateInput!): Content!
   updateManyVotes(data: VoteUpdateInput!, where: VoteWhereInput!): BatchPayload!
   updateManyLinks(data: LinkUpdateInput!, where: LinkWhereInput!): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput!): BatchPayload!
+  updateManyProfiles(data: ProfileUpdateInput!, where: ProfileWhereInput!): BatchPayload!
+  updateManySkills(data: SkillUpdateInput!, where: SkillWhereInput!): BatchPayload!
+  updateManyContacts(data: ContactUpdateInput!, where: ContactWhereInput!): BatchPayload!
+  updateManyContents(data: ContentUpdateInput!, where: ContentWhereInput!): BatchPayload!
+  updateManyProyects(data: ProyectUpdateInput!, where: ProyectWhereInput!): BatchPayload!
   deleteManyVotes(where: VoteWhereInput!): BatchPayload!
   deleteManyLinks(where: LinkWhereInput!): BatchPayload!
   deleteManyUsers(where: UserWhereInput!): BatchPayload!
+  deleteManyProfiles(where: ProfileWhereInput!): BatchPayload!
+  deleteManySkills(where: SkillWhereInput!): BatchPayload!
+  deleteManyContacts(where: ContactWhereInput!): BatchPayload!
+  deleteManyContents(where: ContentWhereInput!): BatchPayload!
+  deleteManyProyects(where: ProyectWhereInput!): BatchPayload!
 }
 
 enum MutationType {
@@ -459,16 +1246,698 @@ type PageInfo {
   endCursor: String
 }
 
+"""
+A connection to a list of items.
+"""
+type ProfileConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  """
+  A list of edges.
+  """
+  edges: [ProfileEdge]!
+  aggregate: AggregateProfile!
+}
+
+input ProfileCreateInput {
+  name: String!
+  picUrl: String
+  role: String!
+  description: String
+}
+
+"""
+An edge in a connection.
+"""
+type ProfileEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: Profile!
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum ProfileOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  picUrl_ASC
+  picUrl_DESC
+  role_ASC
+  role_DESC
+  description_ASC
+  description_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ProfilePreviousValues {
+  id: ID!
+  name: String!
+  picUrl: String
+  role: String!
+  description: String
+}
+
+type ProfileSubscriptionPayload {
+  mutation: MutationType!
+  node: Profile
+  updatedFields: [String!]
+  previousValues: ProfilePreviousValues
+}
+
+input ProfileSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [ProfileSubscriptionWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [ProfileSubscriptionWhereInput!]
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ProfileWhereInput
+}
+
+input ProfileUpdateInput {
+  name: String
+  picUrl: String
+  role: String
+  description: String
+}
+
+input ProfileWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [ProfileWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [ProfileWhereInput!]
+  id: ID
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  name: String
+  """
+  All values that are not equal to given value.
+  """
+  name_not: String
+  """
+  All values that are contained in given list.
+  """
+  name_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  name_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  name_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  name_lte: String
+  """
+  All values greater than the given value.
+  """
+  name_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  name_gte: String
+  """
+  All values containing the given string.
+  """
+  name_contains: String
+  """
+  All values not containing the given string.
+  """
+  name_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  name_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  name_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  name_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  name_not_ends_with: String
+  picUrl: String
+  """
+  All values that are not equal to given value.
+  """
+  picUrl_not: String
+  """
+  All values that are contained in given list.
+  """
+  picUrl_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  picUrl_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  picUrl_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  picUrl_lte: String
+  """
+  All values greater than the given value.
+  """
+  picUrl_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  picUrl_gte: String
+  """
+  All values containing the given string.
+  """
+  picUrl_contains: String
+  """
+  All values not containing the given string.
+  """
+  picUrl_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  picUrl_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  picUrl_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  picUrl_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  picUrl_not_ends_with: String
+  role: String
+  """
+  All values that are not equal to given value.
+  """
+  role_not: String
+  """
+  All values that are contained in given list.
+  """
+  role_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  role_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  role_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  role_lte: String
+  """
+  All values greater than the given value.
+  """
+  role_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  role_gte: String
+  """
+  All values containing the given string.
+  """
+  role_contains: String
+  """
+  All values not containing the given string.
+  """
+  role_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  role_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  role_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  role_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  role_not_ends_with: String
+  description: String
+  """
+  All values that are not equal to given value.
+  """
+  description_not: String
+  """
+  All values that are contained in given list.
+  """
+  description_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  description_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  description_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  description_lte: String
+  """
+  All values greater than the given value.
+  """
+  description_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  description_gte: String
+  """
+  All values containing the given string.
+  """
+  description_contains: String
+  """
+  All values not containing the given string.
+  """
+  description_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  description_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  description_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  description_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  description_not_ends_with: String
+}
+
+input ProfileWhereUniqueInput {
+  id: ID
+}
+
+type Proyect {
+  name: String!
+  image: String!
+  url: String!
+  tags: [String!]
+}
+
+"""
+A connection to a list of items.
+"""
+type ProyectConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  """
+  A list of edges.
+  """
+  edges: [ProyectEdge]!
+  aggregate: AggregateProyect!
+}
+
+input ProyectCreateInput {
+  name: String!
+  image: String!
+  url: String!
+  tags: ProyectCreatetagsInput
+}
+
+input ProyectCreatetagsInput {
+  set: [String!]
+}
+
+"""
+An edge in a connection.
+"""
+type ProyectEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: Proyect!
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum ProyectOrderByInput {
+  name_ASC
+  name_DESC
+  image_ASC
+  image_DESC
+  url_ASC
+  url_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ProyectPreviousValues {
+  name: String!
+  image: String!
+  url: String!
+  tags: [String!]
+}
+
+type ProyectSubscriptionPayload {
+  mutation: MutationType!
+  node: Proyect
+  updatedFields: [String!]
+  previousValues: ProyectPreviousValues
+}
+
+input ProyectSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [ProyectSubscriptionWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [ProyectSubscriptionWhereInput!]
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ProyectWhereInput
+}
+
+input ProyectUpdateInput {
+  name: String
+  image: String
+  url: String
+  tags: ProyectUpdatetagsInput
+}
+
+input ProyectUpdatetagsInput {
+  set: [String!]
+}
+
+input ProyectWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [ProyectWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [ProyectWhereInput!]
+  name: String
+  """
+  All values that are not equal to given value.
+  """
+  name_not: String
+  """
+  All values that are contained in given list.
+  """
+  name_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  name_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  name_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  name_lte: String
+  """
+  All values greater than the given value.
+  """
+  name_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  name_gte: String
+  """
+  All values containing the given string.
+  """
+  name_contains: String
+  """
+  All values not containing the given string.
+  """
+  name_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  name_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  name_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  name_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  name_not_ends_with: String
+  image: String
+  """
+  All values that are not equal to given value.
+  """
+  image_not: String
+  """
+  All values that are contained in given list.
+  """
+  image_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  image_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  image_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  image_lte: String
+  """
+  All values greater than the given value.
+  """
+  image_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  image_gte: String
+  """
+  All values containing the given string.
+  """
+  image_contains: String
+  """
+  All values not containing the given string.
+  """
+  image_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  image_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  image_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  image_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  image_not_ends_with: String
+  url: String
+  """
+  All values that are not equal to given value.
+  """
+  url_not: String
+  """
+  All values that are contained in given list.
+  """
+  url_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  url_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  url_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  url_lte: String
+  """
+  All values greater than the given value.
+  """
+  url_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  url_gte: String
+  """
+  All values containing the given string.
+  """
+  url_contains: String
+  """
+  All values not containing the given string.
+  """
+  url_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  url_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  url_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  url_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  url_not_ends_with: String
+}
+
 type Query {
   votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote]!
   links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  profiles(where: ProfileWhereInput, orderBy: ProfileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Profile]!
+  skills(where: SkillWhereInput, orderBy: SkillOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Skill]!
+  contacts(where: ContactWhereInput, orderBy: ContactOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Contact]!
+  contents(where: ContentWhereInput, orderBy: ContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Content]!
+  proyects(where: ProyectWhereInput, orderBy: ProyectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Proyect]!
   vote(where: VoteWhereUniqueInput!): Vote
   link(where: LinkWhereUniqueInput!): Link
   user(where: UserWhereUniqueInput!): User
+  profile(where: ProfileWhereUniqueInput!): Profile
+  skill(where: SkillWhereUniqueInput!): Skill
+  contact(where: ContactWhereUniqueInput!): Contact
+  content(where: ContentWhereUniqueInput!): Content
   votesConnection(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VoteConnection!
   linksConnection(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LinkConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  profilesConnection(where: ProfileWhereInput, orderBy: ProfileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProfileConnection!
+  skillsConnection(where: SkillWhereInput, orderBy: SkillOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SkillConnection!
+  contactsConnection(where: ContactWhereInput, orderBy: ContactOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ContactConnection!
+  contentsConnection(where: ContentWhereInput, orderBy: ContentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ContentConnection!
+  proyectsConnection(where: ProyectWhereInput, orderBy: ProyectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProyectConnection!
   """
   Fetches an object given its ID
   """
@@ -478,10 +1947,285 @@ type Query {
   id: ID!): Node
 }
 
+"""
+A connection to a list of items.
+"""
+type SkillConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  """
+  A list of edges.
+  """
+  edges: [SkillEdge]!
+  aggregate: AggregateSkill!
+}
+
+input SkillCreateInput {
+  name: String!
+  type: String!
+  value: UserCreateOneInput!
+}
+
+"""
+An edge in a connection.
+"""
+type SkillEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: Skill!
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum SkillOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  type_ASC
+  type_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type SkillPreviousValues {
+  id: ID!
+  name: String!
+  type: String!
+}
+
+type SkillSubscriptionPayload {
+  mutation: MutationType!
+  node: Skill
+  updatedFields: [String!]
+  previousValues: SkillPreviousValues
+}
+
+input SkillSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [SkillSubscriptionWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [SkillSubscriptionWhereInput!]
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: SkillWhereInput
+}
+
+input SkillUpdateInput {
+  name: String
+  type: String
+  value: UserUpdateOneInput
+}
+
+input SkillWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [SkillWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [SkillWhereInput!]
+  id: ID
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  name: String
+  """
+  All values that are not equal to given value.
+  """
+  name_not: String
+  """
+  All values that are contained in given list.
+  """
+  name_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  name_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  name_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  name_lte: String
+  """
+  All values greater than the given value.
+  """
+  name_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  name_gte: String
+  """
+  All values containing the given string.
+  """
+  name_contains: String
+  """
+  All values not containing the given string.
+  """
+  name_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  name_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  name_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  name_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  name_not_ends_with: String
+  type: String
+  """
+  All values that are not equal to given value.
+  """
+  type_not: String
+  """
+  All values that are contained in given list.
+  """
+  type_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  type_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  type_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  type_lte: String
+  """
+  All values greater than the given value.
+  """
+  type_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  type_gte: String
+  """
+  All values containing the given string.
+  """
+  type_contains: String
+  """
+  All values not containing the given string.
+  """
+  type_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  type_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  type_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  type_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  type_not_ends_with: String
+  value: UserWhereInput
+}
+
+input SkillWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
   vote(where: VoteSubscriptionWhereInput): VoteSubscriptionPayload
   link(where: LinkSubscriptionWhereInput): LinkSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  profile(where: ProfileSubscriptionWhereInput): ProfileSubscriptionPayload
+  skill(where: SkillSubscriptionWhereInput): SkillSubscriptionPayload
+  contact(where: ContactSubscriptionWhereInput): ContactSubscriptionPayload
+  content(where: ContentSubscriptionWhereInput): ContentSubscriptionPayload
+  proyect(where: ProyectSubscriptionWhereInput): ProyectSubscriptionPayload
 }
 
 """
@@ -505,6 +2249,11 @@ input UserCreateInput {
   password: String!
   links: LinkCreateManyWithoutPostedByInput
   votes: VoteCreateManyWithoutUserInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutLinksInput {
@@ -602,12 +2351,28 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  links: LinkUpdateManyWithoutPostedByInput
+  votes: VoteUpdateManyWithoutUserInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
   password: String
   links: LinkUpdateManyWithoutPostedByInput
   votes: VoteUpdateManyWithoutUserInput
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
 }
 
 input UserUpdateOneWithoutLinksInput {
@@ -639,6 +2404,11 @@ input UserUpdateWithoutVotesDataInput {
   email: String
   password: String
   links: LinkUpdateManyWithoutPostedByInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutLinksInput {
