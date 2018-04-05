@@ -7,6 +7,11 @@ type AuthPayload {
 type Query {
   feed(filter: String, skip: Int, first: Int): [Link!]!
   feed_skills(filter: String, skip: Int, first: Int): [Skill!]!
+  get_profile(filter: String, skip: Int, first: Int): [Profile!]!
+  get_contact(filter: String, skip: Int, first: Int): [Contact!]!
+  get_content(filter: String, skip: Int, first: Int): [Content!]!
+  get_proyect(filter: String, skip: Int, first: Int): [Proyect!]!
+
 }
 
 type Mutation {
@@ -18,7 +23,7 @@ type Mutation {
   skill(name: String!, value:String!, type:String!, profile: String!): Skill
   contact(location: String!, email:String!, link:String!, profile: String!): Contact
   content(title: String!, description:String!, year:String!, type: String!, image_url:String! , profile: String!): Content
-  proyect(name: String!, image:String!, description:String!, url:String!, tags:[String]!, profile: String!): Proyect
+  proyect(name: String!, image:String!, description:String!, url:String!, tags:[Json!], profile: String!): Proyect
 }
 
 type Subscription {

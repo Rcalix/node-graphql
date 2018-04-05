@@ -56,10 +56,11 @@ type Content {
 }
 
 type Proyect {
+  id: ID! @unique
   name: String!
   image: String!
   description: String!
   url: String!
-  tags: [String!]
+  tags: Json!
   profile: Profile!
 }

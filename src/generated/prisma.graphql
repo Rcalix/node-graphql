@@ -39,6 +39,16 @@ type Profile implements Node {
   description: String
 }
 
+type Proyect implements Node {
+  id: ID!
+  name: String!
+  image: String!
+  description: String!
+  url: String!
+  tags: Json!
+  profile(where: ProfileWhereInput): Profile!
+}
+
 type Skill implements Node {
   id: ID!
   name: String!
@@ -881,6 +891,11 @@ input ContentWhereUniqueInput {
 }
 
 """
+Raw JSON value
+"""
+scalar Json
+
+"""
 A connection to a list of items.
 """
 type LinkConnection {
@@ -1244,6 +1259,7 @@ type Mutation {
   updateSkill(data: SkillUpdateInput!, where: SkillWhereUniqueInput!): Skill
   updateContact(data: ContactUpdateInput!, where: ContactWhereUniqueInput!): Contact
   updateContent(data: ContentUpdateInput!, where: ContentWhereUniqueInput!): Content
+  updateProyect(data: ProyectUpdateInput!, where: ProyectWhereUniqueInput!): Proyect
   deleteVote(where: VoteWhereUniqueInput!): Vote
   deleteLink(where: LinkWhereUniqueInput!): Link
   deleteUser(where: UserWhereUniqueInput!): User
@@ -1251,6 +1267,7 @@ type Mutation {
   deleteSkill(where: SkillWhereUniqueInput!): Skill
   deleteContact(where: ContactWhereUniqueInput!): Contact
   deleteContent(where: ContentWhereUniqueInput!): Content
+  deleteProyect(where: ProyectWhereUniqueInput!): Proyect
   upsertVote(where: VoteWhereUniqueInput!, create: VoteCreateInput!, update: VoteUpdateInput!): Vote!
   upsertLink(where: LinkWhereUniqueInput!, create: LinkCreateInput!, update: LinkUpdateInput!): Link!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
@@ -1258,6 +1275,7 @@ type Mutation {
   upsertSkill(where: SkillWhereUniqueInput!, create: SkillCreateInput!, update: SkillUpdateInput!): Skill!
   upsertContact(where: ContactWhereUniqueInput!, create: ContactCreateInput!, update: ContactUpdateInput!): Contact!
   upsertContent(where: ContentWhereUniqueInput!, create: ContentCreateInput!, update: ContentUpdateInput!): Content!
+  upsertProyect(where: ProyectWhereUniqueInput!, create: ProyectCreateInput!, update: ProyectUpdateInput!): Proyect!
   updateManyVotes(data: VoteUpdateInput!, where: VoteWhereInput!): BatchPayload!
   updateManyLinks(data: LinkUpdateInput!, where: LinkWhereInput!): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput!): BatchPayload!
@@ -1722,15 +1740,6 @@ input ProfileWhereUniqueInput {
   id: ID
 }
 
-type Proyect {
-  name: String!
-  image: String!
-  description: String!
-  url: String!
-  tags: [String!]
-  profile(where: ProfileWhereInput): Profile!
-}
-
 """
 A connection to a list of items.
 """
@@ -1751,12 +1760,8 @@ input ProyectCreateInput {
   image: String!
   description: String!
   url: String!
-  tags: ProyectCreatetagsInput
+  tags: Json!
   profile: ProfileCreateOneInput!
-}
-
-input ProyectCreatetagsInput {
-  set: [String!]
 }
 
 """
@@ -1774,6 +1779,8 @@ type ProyectEdge {
 }
 
 enum ProyectOrderByInput {
+  id_ASC
+  id_DESC
   name_ASC
   name_DESC
   image_ASC
@@ -1782,8 +1789,8 @@ enum ProyectOrderByInput {
   description_DESC
   url_ASC
   url_DESC
-  id_ASC
-  id_DESC
+  tags_ASC
+  tags_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -1791,11 +1798,12 @@ enum ProyectOrderByInput {
 }
 
 type ProyectPreviousValues {
+  id: ID!
   name: String!
   image: String!
   description: String!
   url: String!
-  tags: [String!]
+  tags: Json!
 }
 
 type ProyectSubscriptionPayload {
@@ -1838,12 +1846,8 @@ input ProyectUpdateInput {
   image: String
   description: String
   url: String
-  tags: ProyectUpdatetagsInput
+  tags: Json
   profile: ProfileUpdateOneInput
-}
-
-input ProyectUpdatetagsInput {
-  set: [String!]
 }
 
 input ProyectWhereInput {
@@ -1855,6 +1859,59 @@ input ProyectWhereInput {
   Logical OR on all given filters.
   """
   OR: [ProyectWhereInput!]
+  id: ID
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
   name: String
   """
   All values that are not equal to given value.
@@ -2070,6 +2127,10 @@ input ProyectWhereInput {
   profile: ProfileWhereInput
 }
 
+input ProyectWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote]!
   links(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Link]!
@@ -2086,6 +2147,7 @@ type Query {
   skill(where: SkillWhereUniqueInput!): Skill
   contact(where: ContactWhereUniqueInput!): Contact
   content(where: ContentWhereUniqueInput!): Content
+  proyect(where: ProyectWhereUniqueInput!): Proyect
   votesConnection(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VoteConnection!
   linksConnection(where: LinkWhereInput, orderBy: LinkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LinkConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
