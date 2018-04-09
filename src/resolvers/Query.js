@@ -9,11 +9,12 @@ function feed(parent, args, context, info) {
 
 function feed_skills(parent, args, context, info) {
   const { filter, first, skip } = args // destructure input arguments
-  const where = filter
-    ? { OR: [{ url_contains: filter }, { description_contains: filter }] }
-    : {}
+  const where = {AND: [{profile:{id_contains: filter}}]}
+  // const where = filter
+    // ? { OR: [{ id_contains: filter, profile: filter }] }
+    // : {}
 
-  return context.db.query.skills({ first, skip, where }, info)
+  return context.db.query.skills({ first, skip, where, orderBy: 'value_DESC' }, info)
 }
 
 
